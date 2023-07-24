@@ -2,10 +2,7 @@
 
 namespace App\Providers;
 
-use Native\Laravel\Facades\ContextMenu;
-use Native\Laravel\Facades\Dock;
-use Native\Laravel\Facades\Window;
-use Native\Laravel\GlobalShortcut;
+use Native\Laravel\Facades\MenuBar;
 use Native\Laravel\Menu\Menu;
 
 class NativeAppServiceProvider
@@ -16,43 +13,20 @@ class NativeAppServiceProvider
      */
     public function boot(): void
     {
+        $interactions = Menu::new()
+            ->link('https://nativephp.com', 'Force reload from Nightscout')
+            ->separator()
+            ->quit();
+
+        MenuBar::create()
+            ->width(400)
+            ->height(300)
+            ->withContextMenu($interactions)
+            ->label('mmol...');
+
         Menu::new()
-            ->appMenu()
-            ->submenu('About', Menu::new()
-                ->link('https://beyondco.de', 'Beyond Code')
-                ->link('https://simonhamp.me', 'Simon Hamp')
-            )
-            ->submenu('View', Menu::new()
-                ->toggleFullscreen()
-                ->separator()
-                ->link('https://laravel.com', 'Learn More', 'CmdOrCtrl+L')
-            )
+            ->submenu('mmol', $interactions)
             ->register();
 
-        Window::open()
-            ->width(800)
-            ->height(800);
-
-        /**
-            Dock::menu(
-                Menu::new()
-                    ->event(DockItemClicked::class, 'Settings')
-                    ->submenu('Help',
-                        Menu::new()
-                            ->event(DockItemClicked::class, 'About')
-                            ->event(DockItemClicked::class, 'Learn More…')
-                    )
-            );
-
-            ContextMenu::register(
-                Menu::new()
-                    ->event(ContextMenuClicked::class, 'Do something')
-            );
-
-            GlobalShortcut::new()
-                ->key('CmdOrCtrl+Shift+I')
-                ->event(ShortcutPressed::class)
-                ->register();
-        */
     }
 }
