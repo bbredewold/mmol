@@ -13,16 +13,16 @@ class NativeAppServiceProvider
      */
     public function boot(): void
     {
-        $interactions = Menu::new()
-            ->link('https://nativephp.com', 'Force reload from Nightscout')
-            ->separator()
-            ->quit();
 
         MenuBar::create()
             ->width(400)
             ->height(300)
-            ->withContextMenu($interactions)
-            ->label('mmol...');
+            ->icon(resource_path('icons/menuBarIconTemplate.png'))
+            ->withContextMenu($interactions = Menu::new()
+                ->link('https://nativephp.com', 'Force reload from Nightscout')
+                ->separator()
+                ->quit())
+            ->label('loading...');
 
         Menu::new()
             ->submenu('mmol', $interactions)
