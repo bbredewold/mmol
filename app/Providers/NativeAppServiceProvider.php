@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Artisan;
 use Native\Laravel\Facades\MenuBar;
 use Native\Laravel\Menu\Menu;
 
@@ -13,7 +14,6 @@ class NativeAppServiceProvider
      */
     public function boot(): void
     {
-
         MenuBar::create()
             ->width(400)
             ->height(300)
@@ -21,12 +21,24 @@ class NativeAppServiceProvider
             ->withContextMenu($interactions = Menu::new()
                 ->link('https://nativephp.com', 'Force reload from Nightscout')
                 ->separator()
-                ->quit())
-            ->label('loading...');
+                ->quit());
 
-        Menu::new()
-            ->submenu('mmol', $interactions)
-            ->register();
+        $this->initApp();
+    }
 
+    public function initApp(): void
+    {
+        Artisan::call('app:refresh-nightscout-entries');
+
+        // Boot App Logic here, that decides if app has settings.
+        // No settings found?
+        // -> Show Welcome screen (mini-wizard) with button to settings.
+        // Settings found?
+        //-> Init base state by running job that:
+        // - gets shit from api
+        // - cashes the shit
+        // - update menubar en state
+
+        // The Main App Component only checks the set state,
     }
 }
