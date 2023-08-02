@@ -19,6 +19,7 @@ class NativeAppServiceProvider
             ->withContextMenu($interactions = Menu::new()
                 ->link('https://nativephp.com', 'Force reload from Nightscout')
                 ->separator()
+                ->event(SettingsClickedEvent::class, 'Settings')
                 ->quit())
             ->onlyShowContextMenu();
 
