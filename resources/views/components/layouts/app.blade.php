@@ -6,6 +6,9 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>{{ $title ?? 'MMOL' }} - A Nice Nightscout MenuBar App</title>
         @vite('resources/css/app.css')
+        @vite('resources/js/app.js')
+
+        @stack('scripts')
     </head>
     <body>
         {{ $slot }}
