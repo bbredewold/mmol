@@ -13,6 +13,8 @@ class Entry
 
     public readonly ?int $sgv;
 
+    public readonly ?float $sgvMmol;
+
     public readonly ?string $direction;
 
     public readonly ?int $noise;
@@ -30,7 +32,8 @@ class Entry
         $this->type = Arr::get($data, 'type');
 
         $this->date = Carbon::parse(Arr::get($data, 'dateString'))->utc();
-        $this->sgv = Arr::get($data, 'sgv');
+        $this->sgv = Arr::get($data, 'sgv'); // Sensor Glucose Value
+        $this->sgvMmol = $this->getMmol(); // Sensor Glucose Value in Mmol
         $this->direction = Arr::get($data, 'direction');
 
         $this->noise = Arr::get($data, 'noise');
