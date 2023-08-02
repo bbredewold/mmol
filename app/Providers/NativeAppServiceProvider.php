@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Artisan;
+use App\Events\NightscoutReloadTriggered;
+use App\Events\ReloadSettingsClickedEvent;
+use App\Events\SettingsClickedEvent;
 use Native\Laravel\Facades\MenuBar;
 use Native\Laravel\Menu\Menu;
 
@@ -17,7 +19,7 @@ class NativeAppServiceProvider
         MenuBar::create()
             ->icon(resource_path('icons/menuBarIconTemplate.png'))
             ->withContextMenu($interactions = Menu::new()
-                ->link('https://nativephp.com', 'Force reload from Nightscout')
+                ->event(ReloadSettingsClickedEvent::class, 'Force reload from Nightscout')
                 ->separator()
                 ->event(SettingsClickedEvent::class, 'Settings')
                 ->quit())
@@ -28,7 +30,7 @@ class NativeAppServiceProvider
 
     public function initApp(): void
     {
-        Artisan::call('app:refresh-nightscout-entries');
+        NightscoutReloadTriggered::dispatch();
 
         // Boot App Logic here, that decides if app has settings.
         // No settings found?

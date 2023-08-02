@@ -2,7 +2,8 @@
 
 namespace App\Providers;
 
-use App\Events\NightscoutEntriesUpdated;
+use App\Events\NightscoutReloadTriggered;
+use App\Events\ReloadSettingsClickedEvent;
 use App\Events\SettingsClickedEvent;
 use App\Listeners\OpenSettings;
 use App\Listeners\UpdateAppState;
@@ -17,7 +18,10 @@ class EventServiceProvider extends ServiceProvider
      * @var array<class-string, array<int, class-string>>
      */
     protected $listen = [
-        NightscoutEntriesUpdated::class => [
+        NightscoutReloadTriggered::class => [
+            UpdateAppState::class,
+        ],
+        ReloadSettingsClickedEvent::class => [
             UpdateAppState::class,
         ],
         SettingsClickedEvent::class => [

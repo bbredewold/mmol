@@ -2,8 +2,8 @@
 
 namespace App\Support\Nightscout;
 
-use Arr;
 use Carbon\Carbon;
+use Illuminate\Support\Arr;
 
 class Entry
 {

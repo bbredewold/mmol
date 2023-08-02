@@ -2,9 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Events\NightscoutEntriesUpdated;
-use App\Support\NightscoutService;
-use Cache;
+use App\Events\NightscoutReloadTriggered;
 use Illuminate\Console\Command;
 
 class RefreshNightscoutEntries extends Command
@@ -13,12 +11,8 @@ class RefreshNightscoutEntries extends Command
 
     protected $description = 'Refresh entries from Nightscout API';
 
-    public function handle(NightscoutService $service): void
+    public function handle(): void
     {
-        $entries = $service->getEntries();
-
-        Cache::put('entries', $entries);
-
-        NightscoutEntriesUpdated::dispatch($entries);
+        NightscoutReloadTriggered::dispatch();
     }
 }
