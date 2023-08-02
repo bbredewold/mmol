@@ -29,6 +29,7 @@ class NightscoutService
     public function getEntries(): Collection
     {
         $entries = $this->client->get('{+domain}/api/{version}/entries.json')->json();
+        usort($entries, fn($a, $b) => $a['date'] - $b['date']);
 
         return collect($entries)->mapInto(Entry::class);
     }

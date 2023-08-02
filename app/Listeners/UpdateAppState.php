@@ -20,8 +20,8 @@ class UpdateAppState
     {
         $entries = $this->service->getEntries();
 
-        $this->updateMenuBar($entries->first());
-        $this->triggerWarnings($entries->first());
+        $this->updateMenuBar($entries->last());
+        $this->triggerWarnings($entries->last());
 
         Cache::put('entries', $entries);
 
